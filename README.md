@@ -70,7 +70,7 @@ class SAM(nn.Module):
         avg = torch.mean(x,1).unsqueeze(1)
         concat = torch.cat((max,avg), dim=1)
         output = self.conv(concat)
-        output = output * x 
+        output = F.sigmoid(output) * x 
         return output 
 ```
 
