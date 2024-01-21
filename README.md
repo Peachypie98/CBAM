@@ -32,11 +32,7 @@ class CAM(nn.Module):
         super(CAM, self).__init__()
         self.channels = channels
         self.r = r
-        self.linear_max = nn.Sequential(
-            nn.Linear(in_features=self.channels, out_features=self.channels//self.r, bias=True),
-            nn.ReLU(inplace=True),
-            nn.Linear(in_features=self.channels//self.r, out_features=self.channels, bias=True))
-        self.linear_avg = nn.Sequential(
+        self.linear = nn.Sequential(
             nn.Linear(in_features=self.channels, out_features=self.channels//self.r, bias=True),
             nn.ReLU(inplace=True),
             nn.Linear(in_features=self.channels//self.r, out_features=self.channels, bias=True))
@@ -45,8 +41,8 @@ class CAM(nn.Module):
         max = F.adaptive_max_pool2d(x, output_size=1)
         avg = F.adaptive_avg_pool2d(x, output_size=1)
         b, c, _, _ = x.size()
-        linear_max = self.linear_max(max.view(b,c)).view(b, c, 1, 1)
-        linear_avg = self.linear_avg(avg.view(b,c)).view(b, c, 1, 1)
+        linear_max = self.linear(max.view(b,c)).view(b, c, 1, 1)
+        linear_avg = self.linear(avg.view(b,c)).view(b, c, 1, 1)
         output = linear_max + linear_avg
         output = F.sigmoid(output) * x
         return output
@@ -77,7 +73,7 @@ class SAM(nn.Module):
 ## Results - VGG19 (CIFAR100)
 Evaluated CBAM using VGG19 model with BatchNorm on CIFAR100 dataset.  
 The configurations used to train VGG:
-* Adam Optimizer
+* AdamW Optimizer
 * 0.0001 Learning Rate
 * 0.005 Weight Decay
 * Cross Entropy Loss
@@ -85,13 +81,13 @@ The configurations used to train VGG:
 
 | Model | Top-1 Acc | Top-5 Acc |
 | ----- | --------- | --------- |
-| VGG19 | 39.08% | 66.56% |
-| VGG19 + CBAM [^1] | 40.26% | 68.30% |
+| VGG19 | 39.87% | 67.69% |
+| VGG19 + CBAM [^1] | 40.95% | 68.24% |
 
-[^1]: Reduction ratio of 8 was used during training
+[^1]: Reduction ratio of 2 was used during training
 
 ## Demo
-To implement CBAM, please use `cbam.py` file I provided.
+To implement CBAM, please use `cbam.py` file that I provided.
 
 --- 
 More detailed information can be seen using the link down below:  
