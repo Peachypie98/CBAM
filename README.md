@@ -84,7 +84,7 @@ The configurations used to train VGG:
 | VGG19 | 39.87% | 67.69% |
 | VGG19 + CBAM [^1] | 40.95% | 68.24% |
 
-[^1]: Reduction ratio of 2 was used during training
+[^1]: Reduction ratio of 4 was used during training
 
 ## Demo
 To implement CBAM, please use `cbam.py` file that I provided.
