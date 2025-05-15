@@ -89,6 +89,9 @@ The configurations used to train VGG:
 ## Demo
 To implement CBAM, please use `cbam.py` file that I provided.
 
+## Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=Peachypie98/CBAM&type=Date)](https://www.star-history.com/#Peachypie98/CBAM&Date)
+
 --- 
 More detailed information can be seen using the link down below:  
 [https://arxiv.org/abs/1807.06521](https://arxiv.org/abs/1807.06521)
